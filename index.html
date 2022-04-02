@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+</head>
+
+<body>
+  <button onclick="google.script.run.test()">出勤</button>
+    <? members().forEach(function(div) { ?>
+    <button ><?= div.name ?></buttton>
+    <? }); ?>
+</body>
+
+
+</html>
