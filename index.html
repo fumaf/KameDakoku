@@ -7,10 +7,14 @@
 
 <body>
   <button onclick="google.script.run.test()">出勤</button>
-    <? members().forEach(function(div) { ?>
-    <button ><?= div.name ?></buttton>
-    <? }); ?>
-</body>
 
+  <? members().forEach(function(XXX) { ?>
+    <div>
+      <a href="<?= getAppUrl() ?>?page=password"><?= XXX.name ?></a>
+    </div>
+  <? }); ?>
+    
+
+</body>
 
 </html>

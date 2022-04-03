@@ -1,5 +1,15 @@
-function doGet() {
-  return HtmlService.createTemplateFromFile('index').evaluate();
+function doGet(e) {
+  let page = e.parameter.page;
+  if (!page) {
+    page = 'index';
+  }
+  return HtmlService.createTemplateFromFile(page).evaluate();
+}
+
+
+
+function getAppUrl() {
+  return ScriptApp.getService().getUrl();
 }
 
 //スプレッドシート名取得
@@ -41,10 +51,12 @@ const test = () => {
 
   // 出勤時間のセル取得
   const attendanceTimeCell = sheetName.getRange(`C${row}`)
-
   //記録
   attendanceTimeCell.setValue("test")
-
 }
 
-test();
+const passwordwindow = () => {
+  return HtmlService.createTemplateFromFile('index').evaluate();
+}
+
+
