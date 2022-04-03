@@ -1,8 +1,8 @@
 const members = () => { 
   
   const member = [
-  { name:"梶原 留衣", password: 0000 },
-  { name: "福當 楓茉", password: 0000 },
+  { name:"梶原 留衣", password: "0000" },
+  { name: "福當 楓茉", password: "1201" },
   { name: "田口 咲", password: 0000 },
   { name: "藤沢 誠一", password: 0000 },
   { name: "綾小路 奈月", password: 0000 },

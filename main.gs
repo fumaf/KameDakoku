@@ -3,9 +3,15 @@ function doGet(e) {
   if (!page) {
     page = 'index';
   }
-  return HtmlService.createTemplateFromFile(page).evaluate();
+  // -- 変更ここから --
+  const template = HtmlService.createTemplateFromFile(page);
+  if (page === 'password') {
+    template.name = e.parameter.name;
+    template.password = e.parameter.password;
+  }
+  return template.evaluate();
+  // -- 変更ここまで --
 }
-
 
 
 function getAppUrl() {
@@ -35,6 +41,12 @@ const findeTargetRow = (dates, today) => {
   })
   return index + 7
 }
+
+const yonda = () => {
+  console.log("iine");
+}
+
+
 
 // creat();
 
