@@ -3,16 +3,25 @@ function doGet(e) {
   if (!page) {
     page = 'index';
   }
-  // -- 変更ここから --
+
   const template = HtmlService.createTemplateFromFile(page);
-  if (page === 'password') {
+  if (!(page === 'index')) {
     template.name = e.parameter.name;
     template.password = e.parameter.password;
   }
   return template.evaluate();
-  // -- 変更ここまで --
 }
 
+// ↓passwordの入力画面で、これを使ってURLを変えたかった
+// const passwordCheck = () => {
+//   let pagename = "aa"
+//   if(password==input){
+//     pagename = "set"
+//   }else{
+//     pagename = "erro"
+//   }
+//   return pagename
+// }
 
 function getAppUrl() {
   return ScriptApp.getService().getUrl();
