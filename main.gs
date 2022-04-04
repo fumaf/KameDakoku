@@ -1,5 +1,30 @@
-function doGet() {
-  return HtmlService.createTemplateFromFile('index').evaluate();
+function doGet(e) {
+  let page = e.parameter.page;
+  if (!page) {
+    page = 'index';
+  }
+
+  const template = HtmlService.createTemplateFromFile(page);
+  if (!(page === 'index')) {
+    template.name = e.parameter.name;
+    template.password = e.parameter.password;
+  }
+  return template.evaluate();
+}
+
+// ↓passwordの入力画面で、これを使ってURLを変えたかった
+// const passwordCheck = () => {
+//   let pagename = "aa"
+//   if(password==input){
+//     pagename = "set"
+//   }else{
+//     pagename = "erro"
+//   }
+//   return pagename
+// }
+
+function getAppUrl() {
+  return ScriptApp.getService().getUrl();
 }
 
 //スプレッドシート名取得
@@ -26,6 +51,12 @@ const findeTargetRow = (dates, today) => {
   return index + 7
 }
 
+const yonda = () => {
+  console.log("iine");
+}
+
+
+
 // creat();
 
 const test = () => {
@@ -41,10 +72,12 @@ const test = () => {
 
   // 出勤時間のセル取得
   const attendanceTimeCell = sheetName.getRange(`C${row}`)
-
   //記録
   attendanceTimeCell.setValue("test")
-
 }
 
-test();
+const passwordwindow = () => {
+  return HtmlService.createTemplateFromFile('index').evaluate();
+}
+
+

@@ -4,13 +4,21 @@
 <head>
   <base target="_top">
 </head>
-
 <body>
   <button onclick="google.script.run.test()">出勤</button>
-    <? members().forEach(function(div) { ?>
-    <button ><?= div.name ?></buttton>
-    <? }); ?>
+
+  <? members().forEach(function(XXX) { ?>
+    <div>
+      <a href="<?= getAppUrl() ?>?page=password&name=<?= XXX.name ?>&password=<?= XXX.password ?>"　><?= XXX.name ?></a>
+    </div>
+  <? }); ?>
+
 </body>
-
-
 </html>
+
+<script>
+google.script.url.getLocation(function(location) {
+  const name = location.parameter.name;
+  const password = location.parameter.password;
+});
+</script>
