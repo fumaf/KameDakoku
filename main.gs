@@ -35,8 +35,8 @@ const getSheet = () => {
 }
 
 // スプレッドのシート名取得
-const getSheetName = (sheet) => {
-  const sheetName = sheet.getSheetByName("福當 楓茉");
+const getSheetName = (sheet,name) => {
+  const sheetName = sheet.getSheetByName(name);
   return sheetName
 }
 
@@ -50,10 +50,21 @@ const organize = (datas) => {
     console.log("配列に変換")
   }
   for (let i = 0; i<forDatas.length ;i++){
-   const dataSplid = (String(forDatas[i])).split(' ');
-   newDatas.push(dataSplid.slice(0,5));
+    // String=配列から出す
+    const dataSplid = (String(forDatas[i])).split(' ');
+    newDatas.push(dataSplid.slice(0,5));
   }
   return newDatas;
+  // [ 'Wed', 'Apr', '06', '2022', '04:54:26' ]
+}
+
+
+const time = () => {
+  const currentTime　= organize(new Date)[0].slice(4,5);
+  console.log(currentTime)
+  const timeWithOutSeconds = (String(currentTime)).split(':').slice(0,2);
+  const timeForStumping = `${timeWithOutSeconds[0]}:${timeWithOutSeconds[1]}`;
+  return timeForStumping;
 }
 
 //書き込む行の検索
@@ -81,16 +92,16 @@ const findeTargetRow = (dates, today) => {
 const findeTargetColumn = (kinds) => {
   let targetRow;
   switch(kinds) {
-    case 'あ':
+    case '出勤':
       targetRow = "G";
       break;
-    case 'い':
+    case '退勤':
       targetRow = "H";
       break;
-    case "aaa":
+    case '休憩開始':
       targetRow = "I";
       break;
-    case 'え':
+    case '休憩終了':
       targetRow = "J";
       break;
   }
@@ -98,23 +109,27 @@ const findeTargetColumn = (kinds) => {
 }
 
 // 打刻を行う
-const stamping = () => {
+const stamping = (kinds,name) => {
   //スプレッドシートを指定
   const sheet = getSheet();
   //スプレッドシートのシート名
-  const sheetName = getSheetName(sheet);
+  const sheetName = getSheetName(sheet,name);
   const lastRow = sheetName.getLastRow();
   const dates = sheetName.getRange(`D3:D${lastRow}`).getValues();
   // 今日の日付と一致する行を取得
   const row = findeTargetRow(dates,new Date());
   // 引数と一致する列を取得
-  const column = findeTargetColumn("あ");
+  const column = findeTargetColumn(kinds);
   // セル取得
   const cell = sheetName.getRange(`${column+row}`);
   // 打刻
-  cell.setValue("test")
-  return console.log(column);
+  const current = time();
+  cell.setValue(current);
+  return console.log(current);
 }
 
+const test = () => {
+  console.log(organize(new Date()))
+}
 
 
