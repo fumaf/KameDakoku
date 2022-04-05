@@ -23,6 +23,8 @@ function doGet(e) {
 //   return pagename
 // }
 
+
+//  URLを取得する
 function getAppUrl() {
   return ScriptApp.getService().getUrl();
 }
@@ -32,52 +34,87 @@ const getSheet = () => {
   return SpreadsheetApp.openById('1-JzVdJLXQZAP9IvkTt5zDGArDDAircSc2AcdsX4XJlY');
 }
 
-let today = new Date();
-
-// console.log(today);
-
 // スプレッドのシート名取得
 const getSheetName = (sheet) => {
   const sheetName = sheet.getSheetByName("福當 楓茉");
   return sheetName
 }
-// const aa = getSheet();
-// console.log(aa);
+
+// データを使いやすくする。ex.[I am fuma]→["I","am","fuma"]
+const organize = (datas) => {
+  const newDatas = [];
+  let forDatas = datas;
+  // 配列でないものを配列にする。　ex.I am fuma→[I am fuma]
+  if(!(Array.isArray(forDatas))){
+    forDatas = [forDatas];
+    console.log("配列に変換")
+  }
+  for (let i = 0; i<forDatas.length ;i++){
+   const dataSplid = (String(forDatas[i])).split(' ');
+   newDatas.push(dataSplid.slice(0,5));
+  }
+  return newDatas;
+}
+
 //書き込む行の検索
 const findeTargetRow = (dates, today) => {
-  const index = dates.findIndex((date) => {
-    return date[date.length - 1].toLocaleString() === today.toLocaleString()
-  })
-  return index + 7
+  let organaizeDatas = organize(dates);
+  let targetRow;
+  // 現在時刻の時間の要素を消す
+  let todayWithOutTime = organize(today)[0].slice(0,4);
+  let datesWithOutTime = [];
+  for( let i = 0; i < organaizeDatas.length;i++){
+    // 受け取ったdatasの時間の要素を消す
+    datesWithOutTime[i] = organaizeDatas[i].slice(0,4)
+      // console.log(todayWithOutTime);
+      // console.log(datesWithOutTime[i]);
+    // JSON文字列で比較
+    if( JSON.stringify(datesWithOutTime[i]) == JSON.stringify(todayWithOutTime) ){
+      targetRow = i + 3;
+      break;
+    }
+  } 
+  return targetRow;
 }
 
-const yonda = () => {
-  console.log("iine");
+//書き込む列の検索
+const findeTargetColumn = (kinds) => {
+  let targetRow;
+  switch(kinds) {
+    case 'あ':
+      targetRow = "G";
+      break;
+    case 'い':
+      targetRow = "H";
+      break;
+    case "aaa":
+      targetRow = "I";
+      break;
+    case 'え':
+      targetRow = "J";
+      break;
+  }
+  return targetRow;
 }
 
-
-
-// creat();
-
-const test = () => {
+// 打刻を行う
+const stamping = () => {
   //スプレッドシートを指定
   const sheet = getSheet();
   //スプレッドシートのシート名
   const sheetName = getSheetName(sheet);
-  //スプレッドシートの日付取得
-  const dates = sheetName.getRange('A7:A37').getValues();
-
-  //現在の日付と合致する行を取得
-  const row = findeTargetRow(dates, new Date(new Date().setHours(0, 0, 0, 0)));
-
-  // 出勤時間のセル取得
-  const attendanceTimeCell = sheetName.getRange(`C${row}`)
-  //記録
-  attendanceTimeCell.setValue("test")
+  const lastRow = sheetName.getLastRow();
+  const dates = sheetName.getRange(`D3:D${lastRow}`).getValues();
+  // 今日の日付と一致する行を取得
+  const row = findeTargetRow(dates,new Date());
+  // 引数と一致する列を取得
+  const column = findeTargetColumn("あ");
+  // セル取得
+  const cell = sheetName.getRange(`${column+row}`);
+  // 打刻
+  cell.setValue("test")
+  return console.log(column);
 }
 
-const passwordwindow = () => {
-  return HtmlService.createTemplateFromFile('index').evaluate();
-}
 
 
