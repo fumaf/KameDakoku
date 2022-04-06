@@ -3,21 +3,111 @@
 
 <head>
   <base target="_top">
-</head>
-<body>
-  <button onclick="google.script.run.test()">出勤</button>
 
-  <? members().forEach(function(XXX) { ?>
-    <div>
-      <a href="<?= getAppUrl() ?>?page=password&name=<?= XXX.name ?>&password=<?= XXX.password ?>"　><?= XXX.name ?></a>
+</head>
+<header>
+    かめ打刻
+  </header>
+<body>
+  <div class="test">
+    <div class="curent">
+    <div class="time"><?= time() ?></div>
+    <div class="time">現在時刻</div>
     </div>
-  <? }); ?>
+  　<div class="memberBox">
+    <!-- <div class="shadowTop"></div> -->
+    <? members().forEach(function(XXX) { ?>
+    <div class="memberButton">
+      <a href="<?= getAppUrl() ?>?page=password&name=<?= XXX.name ?>&password=<?= XXX.password ?>" class="member">
+        <?= XXX.name ?>
+      </a>
+    </div>
+    <? }); ?>
+
+  </div>
+  </div>
+
 
 </body>
+
 </html>
+<style>
+  body {
+    font-family: Verdana, Arial;
+    font-size: 40px;
+    width: 100%;
+    height: 100vh;
+    background-color: #DFE6F1;
+    overflow: hidden;
+    margin: 0;
+    font-family: "Hiragino Sans", "ヒラギノ角ゴシック";
+    font-weight: 700;
+
+    
+  }
+
+  header {
+    background-color: white;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #295FD6;
+    font-size: 60px;
+
+  }
+.test{
+      display: flex;
+      margin-top:40px;
+
+}
+.curent{
+  background-color:black;
+  width:500px;
+  height:500px;
+  /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+  .time{
+    font-size: 100px;
+    color:#295FD6;
+  }
+  .memberBox {
+    width: 60%;
+    height: 80vh;
+    background-color: white;
+    overflow: scroll;
+    margin: 0 60px 0 auto;
+    border-radius: 30px;
+
+  }
+
+  .memberButton {
+    background-color: #295FD6;
+    margin: 40px 40px 40px 200px;
+    height: 120px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+
+
+
+  }
+
+  .member {
+    color: white;
+    text-decoration: none;
+    font-size: 60px;
+
+  }
+</style>
 
 <script>
-google.script.url.getLocation(function(location) {
+  google.script.url.getLocation(function(location) {
   const name = location.parameter.name;
   const password = location.parameter.password;
 });
