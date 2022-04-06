@@ -23,10 +23,14 @@ function doGet(e) {
 //   return pagename
 // }
 
-
 //  URLを取得する
 function getAppUrl() {
   return ScriptApp.getService().getUrl();
+}
+
+function getFileUrl(id) {
+  var url = DriveApp.getFileById(id).getDownloadUrl();
+  return url + '&access_token=' + ScriptApp.getOAuthToken();
 }
 
 //スプレッドシート名取得
@@ -35,7 +39,7 @@ const getSheet = () => {
 }
 
 // スプレッドのシート名取得
-const getSheetName = (sheet,name) => {
+const getSheetName = (sheet, name) => {
   const sheetName = sheet.getSheetByName(name);
   return sheetName
 }
@@ -45,53 +49,62 @@ const organize = (datas) => {
   const newDatas = [];
   let forDatas = datas;
   // 配列でないものを配列にする。　ex.I am fuma→[I am fuma]
-  if(!(Array.isArray(forDatas))){
+  if (!(Array.isArray(forDatas))) {
     forDatas = [forDatas];
     console.log("配列に変換")
   }
-  for (let i = 0; i<forDatas.length ;i++){
+  for (let i = 0; i < forDatas.length; i++) {
     // String=配列から出す
     const dataSplid = (String(forDatas[i])).split(' ');
-    newDatas.push(dataSplid.slice(0,5));
+    newDatas.push(dataSplid.slice(0, 5));
   }
   return newDatas;
   // [ 'Wed', 'Apr', '06', '2022', '04:54:26' ]
 }
 
-
+// 現在時刻を○○:○○に書き換える
 const time = () => {
-  const currentTime　= organize(new Date)[0].slice(4,5);
+  const currentTime = organize(new Date)[0].slice(4, 5);
   console.log(currentTime)
-  const timeWithOutSeconds = (String(currentTime)).split(':').slice(0,2);
+  const timeWithOutSeconds = (String(currentTime)).split(':').slice(0, 2);
   const timeForStumping = `${timeWithOutSeconds[0]}:${timeWithOutSeconds[1]}`;
   return timeForStumping;
 }
+
+// const countUp = () => {
+//   const currentTime = organize(new Date)[0].slice(4, 5);
+//   const hour = (String(currentTime)).split(':').slice(0, 1);
+//   const minute = (String(currentTime)).split(':').slice(1, 2);
+//   const second = (String(currentTime)).split(':').slice(2, 3);
+//   setTimeout(countUp, 1000);
+//   // return console.log(hour)
+// }
 
 //書き込む行の検索
 const findeTargetRow = (dates, today) => {
   let organaizeDatas = organize(dates);
   let targetRow;
   // 現在時刻の時間の要素を消す
-  let todayWithOutTime = organize(today)[0].slice(0,4);
+  let todayWithOutTime = organize(today)[0].slice(0, 4);
   let datesWithOutTime = [];
-  for( let i = 0; i < organaizeDatas.length;i++){
+  for (let i = 0; i < organaizeDatas.length; i++) {
     // 受け取ったdatasの時間の要素を消す
-    datesWithOutTime[i] = organaizeDatas[i].slice(0,4)
-      // console.log(todayWithOutTime);
-      // console.log(datesWithOutTime[i]);
+    datesWithOutTime[i] = organaizeDatas[i].slice(0, 4)
+    // console.log(todayWithOutTime);
+    // console.log(datesWithOutTime[i]);
     // JSON文字列で比較
-    if( JSON.stringify(datesWithOutTime[i]) == JSON.stringify(todayWithOutTime) ){
+    if (JSON.stringify(datesWithOutTime[i]) == JSON.stringify(todayWithOutTime)) {
       targetRow = i + 3;
       break;
     }
-  } 
+  }
   return targetRow;
 }
 
 //書き込む列の検索
 const findeTargetColumn = (kinds) => {
   let targetRow;
-  switch(kinds) {
+  switch (kinds) {
     case '出勤':
       targetRow = "G";
       break;
@@ -109,19 +122,19 @@ const findeTargetColumn = (kinds) => {
 }
 
 // 打刻を行う
-const stamping = (kinds,name) => {
+const stamping = (kinds, name) => {
   //スプレッドシートを指定
   const sheet = getSheet();
   //スプレッドシートのシート名
-  const sheetName = getSheetName(sheet,name);
+  const sheetName = getSheetName(sheet, name);
   const lastRow = sheetName.getLastRow();
   const dates = sheetName.getRange(`D3:D${lastRow}`).getValues();
   // 今日の日付と一致する行を取得
-  const row = findeTargetRow(dates,new Date());
+  const row = findeTargetRow(dates, new Date());
   // 引数と一致する列を取得
   const column = findeTargetColumn(kinds);
   // セル取得
-  const cell = sheetName.getRange(`${column+row}`);
+  const cell = sheetName.getRange(`${column + row}`);
   // 打刻
   const current = time();
   cell.setValue(current);
