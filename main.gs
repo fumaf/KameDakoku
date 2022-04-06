@@ -28,10 +28,10 @@ function getAppUrl() {
   return ScriptApp.getService().getUrl();
 }
 
-function getFileUrl(id) {
-  var url = DriveApp.getFileById(id).getDownloadUrl();
-  return url + '&access_token=' + ScriptApp.getOAuthToken();
-}
+// function getFileUrl(id) {
+//   var url = DriveApp.getFileById(id).getDownloadUrl();
+//   return url + '&access_token=' + ScriptApp.getOAuthToken();
+// }
 
 //スプレッドシート名取得
 const getSheet = () => {
