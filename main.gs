@@ -28,11 +28,6 @@ function getAppUrl() {
   return ScriptApp.getService().getUrl();
 }
 
-// function getFileUrl(id) {
-//   var url = DriveApp.getFileById(id).getDownloadUrl();
-//   return url + '&access_token=' + ScriptApp.getOAuthToken();
-// }
-
 //スプレッドシート名取得
 const getSheet = () => {
   return SpreadsheetApp.openById('1-JzVdJLXQZAP9IvkTt5zDGArDDAircSc2AcdsX4XJlY');
@@ -70,15 +65,6 @@ const time = () => {
   const timeForStumping = `${timeWithOutSeconds[0]}:${timeWithOutSeconds[1]}`;
   return timeForStumping;
 }
-
-// const countUp = () => {
-//   const currentTime = organize(new Date)[0].slice(4, 5);
-//   const hour = (String(currentTime)).split(':').slice(0, 1);
-//   const minute = (String(currentTime)).split(':').slice(1, 2);
-//   const second = (String(currentTime)).split(':').slice(2, 3);
-//   setTimeout(countUp, 1000);
-//   // return console.log(hour)
-// }
 
 //書き込む行の検索
 const findeTargetRow = (dates, today) => {
@@ -138,7 +124,7 @@ const stamping = (kinds, name) => {
   // 打刻
   const current = time();
   cell.setValue(current);
-  return console.log(current);
+  return true;
 }
 
 const test = () => {
