@@ -1,13 +1,118 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <base target="_top">
-  </head>
-  <body>
-  <div><?= name ?></div>
-  <button onclick="google.script.run.stamping('出勤',<?= name ?>);">出勤</button>
-  <button onclick="google.script.run.stamping('退勤',<?= name ?>);">退勤</button>
-  <button onclick="google.script.run.stamping('休憩開始',<?= name ?>);">休憩開始</button>
-  <button onclick="google.script.run.stamping('休憩終了',<?= name ?>);">休憩終了</button>
-  </body>
+
+<head>
+  <base target="_top">
+  <?!= HtmlService.createHtmlOutputFromFile('styleset').getContent(); ?>
+</head>
+
+<body>
+  <header>
+    かめ打刻
+  </header>
+  <div class="name">
+    <span><?= name ?></span>
+    <a href="<?= getAppUrl() ?>?page=index">戻る</a>
+  </div>
+  <button class="attendance" onclick="google.script.run.stamping('出勤',<?= name ?>);">出勤</button>
+  <button class="leaving" onclick="google.script.run.stamping('退勤',<?= name ?>);">退勤</button></br>
+  <button class="breakStart" onclick="google.script.run.stamping('休憩開始',<?= name ?>);">休憩開始</button>
+  <button class="breakEnd" onclick="google.script.run.stamping('休憩終了',<?= name ?>);">休憩終了</button>
+</body>
+
 </html>
+<style>
+
+
+  header {
+    background-color: white;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+  }
+
+  .name {
+    font-size: 80px;
+    margin-top: 50px;
+  }
+
+  span {
+    border-bottom: solid;
+    border-color: #295FD6;
+    border-width: 8px;
+    padding: 5px 30px;
+  }
+
+a{
+    text-decoration: none;
+    background-color: #295FD6;
+    box-shadow: 6px 6px 3px #8697BC;
+    transition: .3s;
+    cursor: pointer;
+    border: 2px solid #295FD6;
+    color: white;
+    font-size: 40px;
+    border-radius: 30px;
+    padding:10px 20px;
+}
+
+a:hover {
+    box-shadow: none ! important;
+    background: #ffffff ! important;
+    color: #295FD6 ! important;
+
+  }
+  button {
+    background-color: #295FD6;
+    font-family: "Hiragino Sans", "ヒラギノ角ゴシック";
+    font-weight: 900;
+    box-shadow: 6px 6px 3px #8697BC;
+    transition: .3s;
+    cursor: pointer;
+    border: 2px solid #295FD6;
+    color: white;
+    font-size: 70px;
+  }
+
+  button:hover {
+    box-shadow: none;
+    background: #ffffff;
+    color: #295FD6;
+  }
+
+  .attendance {
+    width: 40%;
+    height: 30vh;
+    font-size: 100px;
+    margin: 50px 50px;
+    border-radius: 40px;
+  }
+
+  .leaving {
+    width: 40%;
+    height: 30vh;
+    font-size: 100px;
+    margin: 50px 50px;
+    border-radius: 40px;
+
+  }
+
+  .breakStart {
+    width: 40%;
+    height: 15vh;
+    font-size: 70px;
+    margin: 50px 50px;
+    border-radius: 30px;
+  }
+
+  .breakEnd {
+    width: 40%;
+    height: 15vh;
+    font-size: 70px;
+    margin: 50px 50px;
+    border-radius: 30px;
+  }
+</style>
