@@ -1,0 +1,107 @@
+<style>
+  body {
+    font-family: Verdana, Arial;
+    width: 100%;
+    height: 100vh;
+    background-color: #DFE6F1;
+    overflow: hidden;
+    margin: 0;
+    font-family: "Hiragino Sans", "ヒラギノ角ゴシック"!important;
+    font-weight: 900!important;
+  }
+
+  header {
+    background-color: white;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #295FD6;
+    font-size: 7vmin;
+  }
+
+  .test {
+    display: flex;
+    margin-top: 5vmin;
+
+  }
+
+  .curent {
+    background-color: white;
+    width: 40vmin;
+  height: 40vmin;
+    display: grid;
+    place-items: center;
+    margin-left: 8vmin;
+    margin-top: 40vmin;
+    border-radius: 200px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .time {
+    font-size: 10vmin;
+    color: #295FD6;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: 900;
+
+
+    /* margin-left: -50px; */
+
+  }
+
+  .memberBox {
+    width: 100vw;
+    height: 80vh;
+    background-color: white;
+    overflow: scroll;
+    margin: 0 5vmin 0 5vmin;
+    border-radius: 3vmin;
+  }
+
+
+
+  .member {
+    background-color: #295FD6;
+    margin: 3vmin;
+    height: 12vmin;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3vmin;
+    box-shadow: 6px 6px 3px #8697BC;
+    transition: .3s;
+    cursor: pointer;
+    border: 2px solid #295FD6;
+    color: white;
+    text-decoration: none;
+    font-size: 8vmin;
+  }
+
+@media screen and (max-width: 480px) {
+  .test {
+    display: block;
+    margin-top: 5vmin;
+  }
+  .curent{
+margin:0 auto;
+  }
+  .memberBox{
+    height:53vh;
+    width: 90vw;
+    margin:0 auto;
+
+  }
+}
+
+  .member:hover {
+    box-shadow: none;
+    background: #ffffff;
+    color: #295FD6;
+  }
+</style>

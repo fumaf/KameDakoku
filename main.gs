@@ -2,14 +2,15 @@ function doGet(e) {
   let page = e.parameter.page;
   if (!page) {
     page = 'index';
+
   }
 
-  const template = HtmlService.createTemplateFromFile(page);
+  const template = HtmlService.createTemplateFromFile(page)
   if (!(page === 'index')) {
     template.name = e.parameter.name;
     template.password = e.parameter.password;
   }
-  return template.evaluate();
+  return template.evaluate().addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 
 // ↓passwordの入力画面で、これを使ってURLを変えたかった
@@ -234,5 +235,6 @@ const stamping = (kinds, name) => {
   // 打刻
   const current = time(new Date);
   cell.setValue(current);
+  return Browser.msgBox("yayay")
 }
 
